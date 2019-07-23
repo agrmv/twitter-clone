@@ -13,7 +13,11 @@
         </form>
     </div>
 
-    <div>Message List</div>
+    <div><p>Message List</div>
+    <form method="post" action="filter">
+        <input type="text" name="tag">
+        <button type="submit">Search</button>
+    </form>
     <div>
         <p th:each="message : ${messages}">
         <b th:utext="${message.id}"> </b>
