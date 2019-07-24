@@ -2,6 +2,7 @@ package ru.agrmv.twitter.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.agrmv.twitter.user.User;
 
 import javax.persistence.*;
@@ -19,7 +20,7 @@ public class Message {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User author;
+    @Autowired private User author;
 
     public Message(String text, String tag, User user) {
         this.author = user;
@@ -28,6 +29,6 @@ public class Message {
     }
 
     public String getAuthorName() {
-        return author != null ? author.getUsername() : "<none>";
+        return author.getUsername();
     }
 }
