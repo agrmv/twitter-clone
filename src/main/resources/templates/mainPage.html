@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -27,6 +27,7 @@
         <b th:utext="${message.id}"> </b>
         <span th:utext="${message.text}"></span>
         <i th:utext="${message.tag}"></i>
+        <i th:utext="${message.authorName}"></i>
     </div>
 </body>
 </html>
