@@ -1,4 +1,4 @@
-package ru.agrmv.twitter.user;
+package ru.agrmv.twitter.model.user;
 
 import org.springframework.security.core.GrantedAuthority;
 

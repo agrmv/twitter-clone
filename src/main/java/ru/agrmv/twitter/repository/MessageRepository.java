@@ -10,5 +10,5 @@ public interface MessageRepository extends CrudRepository<Message, Long> {
     @Override
     List<Message> findAll();
 
-    List<Message> findByTag(String tag);
+    List<Message> findByText(String tag);
 }

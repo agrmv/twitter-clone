@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.repository.MessageRepository;
-import ru.agrmv.twitter.user.User;
+import ru.agrmv.twitter.model.user.User;
 
 @Controller
 public class MainController {
@@ -30,20 +30,16 @@ public class MainController {
     }
 
     @PostMapping("/main")
-    public String add(
-            @AuthenticationPrincipal User user,
-            @RequestParam String text,
-            @RequestParam String tag, Model model
-    ) {
-        messageRepository.save(new Message(text, tag, user));
+    public String add(@AuthenticationPrincipal User user, @RequestParam String text, Model model) {
+        messageRepository.save(new Message(text, user));
         model.addAttribute("messages", messageRepository.findAll());
         return "mainPage";
     }
 
     @PostMapping("filter")
-    public String filter(@RequestParam String tag, Model model) {
-        if (tag != null && !tag.isEmpty()) {
-            model.addAttribute("messages", messageRepository.findByTag(tag));
+    public String filter(@RequestParam String text, Model model) {
+        if (text != null && !text.isEmpty()) {
+            model.addAttribute("messages", messageRepository.findByText(text));
         } else {
             model.addAttribute("messages", messageRepository.findAll());
         }

@@ -13,7 +13,6 @@
     <div>
         <form method="post">
             <input type="text" name="text" placeholder="Enter message">
-            <input type="text" name="tag" placeholder="Tag">
             <button type="submit">Add</button>
         </form>
     </div>
@@ -21,7 +20,7 @@
     <div><p>Message List</div>
 
     <form method="post" action="filter">
-        <input type="text" name="tag">
+        <input type="text" name="text">
         <button type="submit">Search</button>
     </form>
 
@@ -29,7 +28,6 @@
         <p th:each="message : ${messages}">
         <b th:utext="${message.id}"> </b>
         <span th:utext="${message.text}"></span>
-        <i th:utext="${message.tag}"></i>
         <i th:utext="${message.authorName}"></i>
     </div>
 
