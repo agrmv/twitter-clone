@@ -2,7 +2,6 @@ package ru.agrmv.twitter.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.agrmv.twitter.model.user.User;
 
 import javax.persistence.*;
