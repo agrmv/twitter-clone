@@ -8,9 +8,9 @@
 <form th:action = "@{/user}" method="post">
     <input type="text" th:value="${user.username}" th:name="username">
 
-    <div>
-        <label th:each="role : ${user.roles}">
-            <input type="checkbox" th:utext="${role}" th:checked="${role}">
+    <div th:each="role : ${roles}">
+        <label>
+            <input th:utext="${role}" type="checkbox" th:value="${role}" th:field="*{user.roles}">
         </label>
     </div>
 
