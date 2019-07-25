@@ -5,7 +5,7 @@ import ru.agrmv.twitter.model.Message;
 
 import java.util.List;
 
-public interface MessageRepository extends CrudRepository<Message, Long> {
+public interface MessageRepository extends CrudRepository<Message, Integer> {
 
     @Override
     List<Message> findAll();

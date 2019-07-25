@@ -2,6 +2,7 @@ package ru.agrmv.twitter.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.agrmv.twitter.model.user.User;
 
 import javax.persistence.*;
@@ -35,7 +36,7 @@ public class Message {
      * */
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    private User author;
+    @Autowired private User author;
 
     /**
      * Конструктор - создание нового объекта(сообщения) с определенными значениями

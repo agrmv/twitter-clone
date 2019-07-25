@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>Registration Page</title>
 </head>
@@ -7,7 +7,7 @@
 
     <div th:utext="${message}"> </div>
 
-    <form th:action="@{/registration}" method="post">
+    <form th:action="@{/registration}" th:method="post">
         <div><label> User Name : <input type="text" name="username"/> </label></div>
         <div><label> Password: <input type="password" name="password"/> </label></div>
         <div><input type="submit" value="Registration"/></div>

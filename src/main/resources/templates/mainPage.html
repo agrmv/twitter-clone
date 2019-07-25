@@ -1,26 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
-    <form th:action="@{/logout}" method="post">
-        <input type="submit" value="Sign Out"/>
-    </form>
+    <div>
+        <form th:action="@{/logout}" th:method="post">
+            <input type="submit" value="Sign Out"/>
+        </form>
+        <span><a th:href="@{/user}" >User List </a></span>
+    </div>
     
     <div>
-        <form method="post">
-            <input type="text" name="text" placeholder="Enter message">
+        <form th:method="post">
+            <label>
+                <input type="text" name="text" placeholder="Enter message">
+            </label>
             <button type="submit">Add</button>
         </form>
     </div>
 
     <div><p>Message List</div>
 
-    <form method="post" action="filter">
-        <input type="text" name="text">
+    <form th:method="post" th:action="@{/filter}">
+        <label>
+            <input type="text" name="text">
+        </label>
         <button type="submit">Search</button>
     </form>
 
