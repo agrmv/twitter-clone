@@ -10,6 +10,7 @@ import ru.agrmv.twitter.repository.UserRepository;
 
 import java.util.Collections;
 
+
 @Controller
 public class RegistrationController {
 

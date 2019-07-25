@@ -14,13 +14,31 @@ import java.util.Set;
 @NoArgsConstructor
 @Table(name = "user")
 public class User implements UserDetails {
+    /** Идентификатор пользователя */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private Integer id;
+
+    /** Имя пользователя */
     private String username;
+
+    /**Пароль пользователя */
     private String password;
+
+    /** Признак активности */
     private boolean active;
 
+    /**
+     * Ролевая система (админ, модератор, обычный юзер)
+     *
+     * ElementCollection формирует дополнительную таблицу для хрения enum'ов
+     * fetch = FetchType.EAGER - сразу вместе с загрузкой юзера подгружаются его роли
+     *
+     * CollectionTable данное поле будет храниться в отдельной таблице user_role,
+     * которая будет соединяться с текущей табличкей через user_id
+     *
+     * Enumerated(EnumType.STRING) - храним enum в виде строки
+     * */
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)

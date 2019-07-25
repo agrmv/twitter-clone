@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import ru.agrmv.twitter.service.UserService;
 
+
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
@@ -21,19 +23,26 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
+                    /*Для этих путей разрешен полный доступ*/
+                    /*Для всех остальных нужна авторизация*/
                 .antMatchers("/", "/registration").permitAll()
-                .anyRequest().authenticated()
+                    .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
+                    /*Включаем форму логина*/
+                    .formLogin()
+                    /*Устанавливаем страницу для логина*/
+                    .loginPage("/login")
+                    /*Стрницей логина разрешено пользоваться всем*/
+                    .permitAll()
                 .and()
-                .logout()
-                .permitAll();
+                    /*Включаем форму логаута*/
+                    .logout()
+                    .permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        /*Менеджер учетных записей*/
         auth.userDetailsService(userService)
                 .passwordEncoder(NoOpPasswordEncoder.getInstance());
     }
