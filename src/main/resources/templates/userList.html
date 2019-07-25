@@ -18,7 +18,7 @@
     <tbody>
     <tr th:each="user : ${users}">
         <td th:utext="${user.username}"></td>
-        <td th:utext="${user.roles}"></td>
+        <td th:each="role : ${user.roles}" th:utext="${role}"></td>
         <td><a th:href="@{'/user/' + ${user.id}}">Edit</a></td>
     </tr>
     </tbody>

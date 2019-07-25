@@ -10,7 +10,7 @@
 
     <div>
         <label th:each="role : ${user.roles}">
-            <input type="checkbox" th:name="${role}" th:text="${#lists.contains(user.roles, role)}">
+            <input type="checkbox" th:utext="${role}" th:checked="${role}">
         </label>
     </div>
 
