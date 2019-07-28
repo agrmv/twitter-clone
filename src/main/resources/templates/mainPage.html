@@ -2,18 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Main Page</title>
 </head>
 <body>
     <div>
-        <form th:action="@{/logout}" th:method="post">
+        <form th:action="@{/logout}" method="post">
             <input type="submit" value="Sign Out"/>
         </form>
         <span><a th:href="@{/user}" >User List </a></span>
     </div>
     
     <div>
-        <form th:method="post">
+        <form th:action="@{/main}" method="post">
             <label>
                 <input type="text" name="text" placeholder="Enter message">
             </label>
@@ -23,7 +23,7 @@
 
     <div><p>Message List</div>
 
-    <form th:method="post" th:action="@{/filter}">
+    <form th:action="@{/filter}" method="post">
         <label>
             <input type="text" name="text">
         </label>
