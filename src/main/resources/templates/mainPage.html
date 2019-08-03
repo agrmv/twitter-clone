@@ -13,10 +13,11 @@
     </div>
     
     <div>
-        <form th:action="@{/main}" method="post">
+        <form th:action="@{/main}" method="post" enctype="multipart/form-data">
             <label>
                 <input type="text" name="text" placeholder="Enter message">
             </label>
+            <input type="file" name="file">
             <button type="submit">Add</button>
         </form>
     </div>
@@ -30,12 +31,21 @@
         <button type="submit">Search</button>
     </form>
 
-    <div>
-        <p th:each="message : ${messages}">
+    <div th:each="message : ${messages}">
         <b th:utext="${message.id}"> </b>
         <span th:utext="${message.text}"></span>
-        <i th:utext="${message.authorName}"></i>
-    </div>
+        <strong th:utext="${message.authorName}"></strong>
 
+        <div th:if="${message.image != null}">
+            <img th:src="@{'data:image/jpg;base64,'+ ${message.image}}" style="width:200px; height:200px">
+        </div>
+
+        <div th:if="${message.fileDownloadUri != null}">
+            <a th:href="${message.fileDownloadUri}">
+                <span th:utext="${message.fileDownloadUri}"></span>
+            </a>
+        </div>
+
+    </div>
 </body>
 </html>
