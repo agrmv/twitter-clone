@@ -11,14 +11,14 @@
         </form>
         <span><a th:href="@{/user}" >User List </a></span>
     </div>
-    
+
     <div>
         <form th:action="@{/main}" method="post" enctype="multipart/form-data">
             <label>
                 <input type="text" name="text" placeholder="Enter message">
             </label>
             <input type="file" name="file">
-            <button type="submit">Add</button>
+            <button type="submit">Send</button>
         </form>
     </div>
 
@@ -39,9 +39,10 @@
         <div th:if="${message.image != null}">
             <img th:src="@{'data:image/jpg;base64,'+ ${message.image}}" style="width:200px; height:200px">
         </div>
+
         <div th:if="${message.fileDownloadUri != null}">
             <a th:href="${message.fileDownloadUri}">
-                <span th:utext="${message.file.fileName }"></span>
+                <span th:utext="${message.file.fileName}"></span>
             </a>
         </div>
     </div>
