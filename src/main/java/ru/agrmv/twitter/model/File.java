@@ -27,6 +27,9 @@ public class File {
     /** Тип файла */
     private String fileType;
 
+    /* Размер файла */
+    private Long fileSize;
+
     /** Ссылка для загрузки файла */
     private String fileDownloadUri;
 
@@ -40,9 +43,10 @@ public class File {
      * @param fileType - тип файла
      * @param data - содержимое файла в виде байтового массива
      * */
-    public File(String fileName, String fileType, byte[] data) {
+    public File(String fileName, String fileType, Long fileSize,  byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;
+        this.fileSize = fileSize;
         this.data = data;
     }
 }

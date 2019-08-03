@@ -39,13 +39,11 @@
         <div th:if="${message.image != null}">
             <img th:src="@{'data:image/jpg;base64,'+ ${message.image}}" style="width:200px; height:200px">
         </div>
-
         <div th:if="${message.fileDownloadUri != null}">
             <a th:href="${message.fileDownloadUri}">
-                <span th:utext="${message.fileDownloadUri}"></span>
+                <span th:utext="${message.file.fileName }"></span>
             </a>
         </div>
-
     </div>
 </body>
 </html>

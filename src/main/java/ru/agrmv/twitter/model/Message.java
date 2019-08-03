@@ -18,7 +18,6 @@ import java.util.Base64;
 @Data   // Удобная аннотация, которая объединяет @ToString, @EqualsAndHashCode, @Getter / @Setter, @RequiredArgsConstructor
 @NoArgsConstructor //Создает конструктор без аргументов
 public class Message {
-
     /** Идентификатор сообщения */
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
