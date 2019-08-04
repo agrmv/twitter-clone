@@ -28,6 +28,10 @@ public class User implements UserDetails {
     /** Признак активности */
     private boolean active;
 
+    public boolean isAdmin() {
+        return roles.contains(Role.ROLE_ADMIN);
+    }
+
     /**
      * Ролевая система (админ, модератор, обычный юзер)
      *

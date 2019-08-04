@@ -1,50 +1,54 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Main Page</title>
+<head th:insert="parts/head :: head">
+    <title> Message Page </title>
 </head>
 <body>
-    <div>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-        <span><a th:href="@{/user}" >User List </a></span>
-    </div>
 
-    <div>
-        <form th:action="@{/main}" method="post" enctype="multipart/form-data">
-            <label>
-                <input type="text" name="text" placeholder="Enter message">
-            </label>
-            <input type="file" name="file">
+    <div th:insert="parts/navbar :: navbar"/>
+
+    <div class="container mt-5">
+        <div>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
+
+        <div>
+            <form th:action="@{/main}" method="post" enctype="multipart/form-data">
+                <label>
+                    <input type="text" name="text" placeholder="Enter message">
+                </label>
+                <input type="file" name="file">
             <button type="submit">Send</button>
+            </form>
+        </div>
+
+        <form th:action="@{/filter}" method="post">
+            <label>
+                 <input type="text" name="text">
+            </label>
+            <button type="submit">Search</button>
         </form>
-    </div>
 
-    <div><p>Message List</div>
+        <div><p>Message List</div>
 
-    <form th:action="@{/filter}" method="post">
-        <label>
-            <input type="text" name="text">
-        </label>
-        <button type="submit">Search</button>
-    </form>
+        <div th:each="message : ${messages}">
+            <b th:utext="${message.id}"> </b>
+            <span th:utext="${message.text}"></span>
+            <strong th:utext="${message.authorName}"></strong>
 
-    <div th:each="message : ${messages}">
-        <b th:utext="${message.id}"> </b>
-        <span th:utext="${message.text}"></span>
-        <strong th:utext="${message.authorName}"></strong>
+            <div th:if="${message.image != null}">
+                <img th:src="@{'data:image/jpg;base64,'+ ${message.image}}" style="width:200px; height:200px">
+            </div>
 
-        <div th:if="${message.image != null}">
-            <img th:src="@{'data:image/jpg;base64,'+ ${message.image}}" style="width:200px; height:200px">
-        </div>
-
-        <div th:if="${message.fileDownloadUri != null}">
-            <a th:href="${message.fileDownloadUri}">
-                <span th:utext="${message.file.fileName}"></span>
-            </a>
+            <div th:if="${message.fileDownloadUri != null}">
+                <a th:href="${message.fileDownloadUri}">
+                    <span th:utext="${message.file.fileName}"></span>
+                </a>
+            </div>
         </div>
     </div>
+
 </body>
 </html>
