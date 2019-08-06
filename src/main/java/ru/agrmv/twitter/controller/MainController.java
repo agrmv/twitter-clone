@@ -37,8 +37,15 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(Model model) {
-        model.addAttribute("messages", messageRepository.findAll());
+    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+
+        if (filter != null && !filter.isEmpty()) {
+            model.addAttribute("messages", messageRepository.findByText(filter));
+        } else {
+            model.addAttribute("messages", messageRepository.findAll());
+        }
+
+        model.addAttribute("filter", filter);
         return "mainPage";
     }
 
@@ -65,7 +72,7 @@ public class MainController {
                 .body(new ByteArrayResource(dbFile.getData()));
     }
 
-    @PostMapping("filter")
+    @PostMapping("/filter")
     public String filter(@RequestParam String text, Model model) {
         if (text != null && !text.isEmpty()) {
             model.addAttribute("messages", messageRepository.findByText(text));

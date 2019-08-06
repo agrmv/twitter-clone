@@ -5,50 +5,68 @@
 </head>
 <body>
 
-    <div th:insert="parts/navbar :: navbar"/>
+<div th:insert="parts/navbar :: navbar"></div>
 
-    <div class="container mt-5">
-        <div>
-            <form th:action="@{/logout}" method="post">
-                <input type="submit" value="Sign Out"/>
+<div class="container mt-5">
+
+
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" th:action="@{/main}" class="form-inline">
+                <input type="text" name="filter" class="form-control" th:value="${filter}?:''"   placeholder="Search">
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
             </form>
         </div>
+    </div>
 
-        <div>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Add new Message
+    </a>
+    <div class="collapse" id="collapseExample">
+        <div class="form-group mt-3">
             <form th:action="@{/main}" method="post" enctype="multipart/form-data">
-                <label>
-                    <input type="text" name="text" placeholder="Enter message">
-                </label>
-                <input type="file" name="file">
-            <button type="submit">Send</button>
+                <div class="form-group">
+                    <input class="form-control" type="text" name="text" placeholder="Enter message">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="file"/>
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+                    <script>
+                        $(document).on('change', '.custom-file-input', function (event) {
+                            $(this).next('.custom-file-label').html(event.target.files[0].name);
+                        })
+                    </script>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </div>
             </form>
         </div>
+    </div>
 
-        <form th:action="@{/filter}" method="post">
-            <label>
-                 <input type="text" name="text">
-            </label>
-            <button type="submit">Search</button>
-        </form>
-
-        <div><p>Message List</div>
-
-        <div th:each="message : ${messages}">
-            <b th:utext="${message.id}"> </b>
-            <span th:utext="${message.text}"></span>
-            <strong th:utext="${message.authorName}"></strong>
+    <div class="card-columns">
+        <div class="card my-3" th:each="message : ${messages}">
 
             <div th:if="${message.image != null}">
-                <img th:src="@{'data:image/jpg;base64,'+ ${message.image}}" style="width:200px; height:200px">
+                <img class="card-img-top" th:src="@{'data:image/jpg;base64,'+ ${message.image}}">
             </div>
 
-            <div th:if="${message.fileDownloadUri != null}">
-                <a th:href="${message.fileDownloadUri}">
+            <div class="m-2">
+                <span th:utext="${message.text}"></span>
+            </div>
+
+            <div class="m-2" th:if="${message.fileDownloadUri != null}">
+                <a th:if="${message.fileDownloadUri != null}" th:href="${message.fileDownloadUri}">
                     <span th:utext="${message.file.fileName}"></span>
                 </a>
             </div>
+
+            <div class="card-footer text-muted"  th:utext="${message.authorName}"></div>
         </div>
     </div>
+</div>
 
 </body>
 </html>
