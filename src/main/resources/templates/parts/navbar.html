@@ -18,8 +18,10 @@
                     <a class="nav-link" href="/user">User List</a>
                 </li>
             </ul>
-            <div class="navbar-text mr-3" th:if="${session.SPRING_SECURITY_CONTEXT != null}">
-                <span th:utext="${session.SPRING_SECURITY_CONTEXT.authentication.principal.getUsername()}"/>
+            <div class="nav-item" th:if="${session.SPRING_SECURITY_CONTEXT != null}">
+                <a class="nav-link" href="/user/profile">
+                    <span th:utext="${session.SPRING_SECURITY_CONTEXT.authentication.principal.getUsername()}"/>
+                </a>
             </div>
             <div th:if="${session.SPRING_SECURITY_CONTEXT != null}">
                 <form th:action="@{/logout}" method="post">
