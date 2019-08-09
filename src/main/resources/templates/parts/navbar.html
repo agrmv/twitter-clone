@@ -1,4 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
+
     <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Twitter</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +21,7 @@
             </ul>
             <div class="nav-item" th:if="${session.SPRING_SECURITY_CONTEXT != null}">
                 <a class="nav-link" href="/user/profile">
-                    <span th:utext="${session.SPRING_SECURITY_CONTEXT.authentication.principal.getUsername()}"/>
+                    <span th:utext="${session.SPRING_SECURITY_CONTEXT.authentication.principal.getUsername()}"></span>
                 </a>
             </div>
             <div th:if="${session.SPRING_SECURITY_CONTEXT != null}">

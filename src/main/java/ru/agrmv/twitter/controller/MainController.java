@@ -14,20 +14,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.agrmv.twitter.model.File;
-import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
-import ru.agrmv.twitter.repository.MessageRepository;
 import ru.agrmv.twitter.service.DBFileStorageService;
+import ru.agrmv.twitter.service.MessageService;
 
 @Controller
 public class MainController {
 
-    private final MessageRepository messageRepository;
+    private final MessageService messageService;
     private final DBFileStorageService DBFileStorageService;
 
-
-    public MainController(MessageRepository messageRepository, DBFileStorageService DBFileStorageService) {
-        this.messageRepository = messageRepository;
+    public MainController(MessageService messageService, DBFileStorageService DBFileStorageService) {
+        this.messageService = messageService;
         this.DBFileStorageService = DBFileStorageService;
     }
 
@@ -38,14 +36,7 @@ public class MainController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-
-        if (filter != null && !filter.isEmpty()) {
-            model.addAttribute("messages", messageRepository.findByText(filter));
-        } else {
-            model.addAttribute("messages", messageRepository.findAll());
-        }
-
-        model.addAttribute("filter", filter);
+        messageService.getMessage(filter, model);
         return "mainPage";
     }
 
@@ -53,13 +44,7 @@ public class MainController {
     public String add(@AuthenticationPrincipal User user, @RequestParam String text, Model model,
                       @RequestParam("file") MultipartFile file) {
 
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File dbFile = DBFileStorageService.storeFile(file);
-            messageRepository.save(new Message(text, user, dbFile));
-        } else {
-            messageRepository.save(new Message(text, user));
-        }
-        model.addAttribute("messages", messageRepository.findAll());
+        messageService.addMessage(user, text, model, file);
         return "mainPage";
     }
 
@@ -70,15 +55,5 @@ public class MainController {
                 .contentType(MediaType.parseMediaType(dbFile.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
                 .body(new ByteArrayResource(dbFile.getData()));
-    }
-
-    @PostMapping("/filter")
-    public String filter(@RequestParam String text, Model model) {
-        if (text != null && !text.isEmpty()) {
-            model.addAttribute("messages", messageRepository.findByText(text));
-        } else {
-            model.addAttribute("messages", messageRepository.findAll());
-        }
-        return "mainPage";
     }
 }

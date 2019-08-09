@@ -5,15 +5,14 @@
 </head>
 <body>
     <div th:insert="parts/navbar :: navbar"/>
-
     <div class="container mt-5">
-        <div th:if="${session.SPRING_SECURITY_CONTEXT != null}">
-            <h5 th:utext="${'Hello ' + session.SPRING_SECURITY_CONTEXT.authentication.principal.getUsername() + '!'}"></h5>
-        </div>
         <div th:if="${session.SPRING_SECURITY_CONTEXT == null}">
             <h5 th:utext="${'Hello Guest!'}"></h5>
         </div>
-        <p>This is simple clone of twitter</p>
+        <div th:unless="${session.SPRING_SECURITY_CONTEXT == null}">
+            <h5 th:utext="${'Hello ' + session.SPRING_SECURITY_CONTEXT.authentication.principal.getUsername() + '!'}"></h5>
+        </div>
     </div>
+
 </body>
 </html>
