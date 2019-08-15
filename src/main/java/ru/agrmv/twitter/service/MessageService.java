@@ -2,13 +2,10 @@ package ru.agrmv.twitter.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.multipart.MultipartFile;
-import ru.agrmv.twitter.model.File;
+import org.springframework.validation.BindingResult;
 import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.repository.MessageRepository;
-
-import java.util.Objects;
 
 @Service
 public class MessageService {
@@ -18,12 +15,13 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void addMessage(User user, String text, Model model, MultipartFile file) {
-        if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
-            File dbFile = DBFileStorageService.storeFile(file);
-            messageRepository.save(new Message(text, user, dbFile));
+    public void addMessage(User user, Message message, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasFieldErrors()) {
+            model.addAttribute("error", "error");
         } else {
-            messageRepository.save(new Message(text, user));
+            message.setAuthor(user);
+            model.addAttribute("error", null);
+            messageRepository.save(message);
         }
         model.addAttribute("messages", messageRepository.findAll());
     }
@@ -34,7 +32,6 @@ public class MessageService {
         } else {
             model.addAttribute("messages", messageRepository.findAll());
         }
-
         model.addAttribute("filter", filter);
     }
 }

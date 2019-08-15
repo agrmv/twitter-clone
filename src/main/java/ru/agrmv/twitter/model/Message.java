@@ -2,11 +2,16 @@ package ru.agrmv.twitter.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agrmv.twitter.model.user.User;
+import ru.agrmv.twitter.service.DBFileStorageService;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Base64;
+import java.util.Objects;
 
 /**
  * Класс ChatMessageModel описывает модель сообщения
@@ -24,6 +29,8 @@ public class Message {
     private Integer id;
 
     /** Текст сообщения */
+    @NotBlank(message = "Please fill the message")
+    @Length(max = 280, message = "Message too long(>280 symbols)")
     private String text;
 
     /**
@@ -67,6 +74,12 @@ public class Message {
                 .path("/downloadFile/")
                 .path(file.getId().toString())
                 .toUriString());
+    }
+
+    public void setFile(MultipartFile file) {
+        if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
+            this.file = DBFileStorageService.storeFile(file);
+        }
     }
 
     /**

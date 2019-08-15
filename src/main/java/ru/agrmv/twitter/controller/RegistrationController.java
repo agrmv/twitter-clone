@@ -2,39 +2,46 @@ package ru.agrmv.twitter.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import ru.agrmv.twitter.model.user.Role;
 import ru.agrmv.twitter.model.user.User;
-import ru.agrmv.twitter.repository.UserRepository;
+import ru.agrmv.twitter.service.UserService;
 
-import java.util.Collections;
+import javax.validation.Valid;
+
 
 
 @Controller
 public class RegistrationController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public RegistrationController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/registration")
-    public String registration() {
+    public String registration(@ModelAttribute("user") User user) {
         return "registrationPage";
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, Model model) {
-        if ((userRepository.findByUsername(user.getUsername())) != null) {
-            model.addAttribute("message", "User already exists");
+    public String addUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+
+        if (user.getPassword() != null) {
+            model.addAttribute("passwordError", "Password are different");
+        }
+
+        if (bindingResult.hasErrors()) {
             return "registrationPage";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.ROLE_USER));
-        userRepository.save(user);
+        if(!userService.addUser(user)) {
+            model.addAttribute("usernameError", "User already exist!");
+            return "registrationPage";
+        }
         return "redirect:/login";
     }
 }

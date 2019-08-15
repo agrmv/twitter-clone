@@ -4,7 +4,7 @@ create table files (
                        file_download_uri varchar(255),
                        file_name varchar(255),
                        file_size bigint,
-                       file_type varchar(2048),
+                       file_type varchar(280),
                        primary key (id)
 ) engine=MyISAM;
 

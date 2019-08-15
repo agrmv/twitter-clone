@@ -26,24 +26,21 @@ repositories {
     mavenCentral()
 }
 
-flyway {
-    url = 'jdbc:mysql://localhost:3306'
-    user = 'agrmv'
-    password = 'linux'
-}
-
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
-    implementation 'org.flywaydb:flyway-gradle-plugin:5.2.4'
-    implementation 'mysql:mysql-connector-java'
-    implementation 'javax.xml.bind:jaxb-api'
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    implementation      'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation      'org.springframework.boot:spring-boot-starter-web'
+    implementation      'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation      'org.springframework.boot:spring-boot-starter-security'
+    implementation      'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation      'org.flywaydb:flyway-gradle-plugin:5.2.4'
+    implementation      'org.hibernate.validator:hibernate-validator'
+    implementation      'javax.validation:validation-api'
+    compile             'org.apache.tomcat.embed:tomcat-embed-el'
+    implementation      'mysql:mysql-connector-java'
+    implementation      'javax.xml.bind:jaxb-api'
+    compileOnly         'org.projectlombok:lombok'
+    developmentOnly     'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation  'org.springframework.boot:spring-boot-starter-test'
+    testImplementation  'org.springframework.security:spring-security-test'
 }

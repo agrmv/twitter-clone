@@ -19,7 +19,7 @@ public class DBFileStorageService {
         DBFileStorageService.dbFileRepository = dbFileRepository;
     }
 
-    static File storeFile(MultipartFile file) {
+    public static File storeFile(MultipartFile file) {
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 

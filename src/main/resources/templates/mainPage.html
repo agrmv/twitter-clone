@@ -8,8 +8,6 @@
 <div th:insert="parts/navbar :: navbar"></div>
 
 <div class="container mt-5">
-
-
     <div class="form-row">
         <div class="form-group col-md-6">
             <form method="get" th:action="@{/main}" class="form-inline">
@@ -22,11 +20,17 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Add new Message
     </a>
-    <div class="collapse" id="collapseExample">
+    <div class="collapse" th:classappend="${error} ? show : ''" id="collapseExample">
         <div class="form-group mt-3">
-            <form th:action="@{/main}" method="post" enctype="multipart/form-data">
+            <form th:action="@{/main}" th:object="${message}" enctype="multipart/form-data" method="post">
                 <div class="form-group">
-                    <input class="form-control" type="text" name="text" placeholder="Enter message">
+                    <input type="text" th:field="*{text}" class="form-control" th:classappend="${#fields.hasErrors('text')} ? 'is-invalid' : ''">
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:text="*{text}">Text Error</span>
+                    <script th:unless="${error}">
+                        $(document).ready(function(){
+                            $('#text').val('');
+                        });
+                    </script>
                 </div>
                 <div class="form-group">
                     <div class="custom-file">

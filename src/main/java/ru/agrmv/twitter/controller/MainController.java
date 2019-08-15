@@ -8,21 +8,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import ru.agrmv.twitter.model.File;
+import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.service.DBFileStorageService;
 import ru.agrmv.twitter.service.MessageService;
+
+import javax.validation.Valid;
+
 
 @Controller
 public class MainController {
 
     private final MessageService messageService;
     private final DBFileStorageService DBFileStorageService;
+
 
     public MainController(MessageService messageService, DBFileStorageService DBFileStorageService) {
         this.messageService = messageService;
@@ -35,18 +37,19 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+    public String main(@RequestParam(required = false, defaultValue = "") String filter, @ModelAttribute("message")
+            Message message, Model model) {
         messageService.getMessage(filter, model);
         return "mainPage";
     }
 
     @PostMapping("/main")
-    public String add(@AuthenticationPrincipal User user, @RequestParam String text, Model model,
-                      @RequestParam("file") MultipartFile file) {
-
-        messageService.addMessage(user, text, model, file);
+    public String add(@AuthenticationPrincipal User user, @Valid Message message,
+                      BindingResult bindingResult, Model model) {
+        messageService.addMessage(user, message, bindingResult, model);
         return "mainPage";
     }
+
 
     @GetMapping("/downloadFile/{fileId}")
     public ResponseEntity<Resource> downloadFile(@PathVariable Integer fileId) {
