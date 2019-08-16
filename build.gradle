@@ -1,11 +1,10 @@
 plugins {
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'org.flywaydb.flyway' version "5.2.4"
+    id 'io.spring.dependency-management' version '1.0.6.RELEASE'
     id 'java'
     id 'application'
 }
-
-apply plugin: 'io.spring.dependency-management'
 
 group = 'ru.agrmv'
 mainClassName = 'ru.agrmv.twitter.TwitterApplication'
@@ -32,10 +31,10 @@ dependencies {
     implementation      'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation      'org.springframework.boot:spring-boot-starter-security'
     implementation      'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+    implementation      'org.springframework.session:spring-session-jdbc'
     implementation      'org.flywaydb:flyway-gradle-plugin:5.2.4'
     implementation      'org.hibernate.validator:hibernate-validator'
-    implementation      'javax.validation:validation-api'
-    compile             'org.apache.tomcat.embed:tomcat-embed-el'
+    implementation      'org.apache.tomcat.embed:tomcat-embed-core'
     implementation      'mysql:mysql-connector-java'
     implementation      'javax.xml.bind:jaxb-api'
     compileOnly         'org.projectlombok:lombok'

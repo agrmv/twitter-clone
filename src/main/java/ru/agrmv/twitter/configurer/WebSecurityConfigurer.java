@@ -48,6 +48,8 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
                     /*Стрницей логина разрешено пользоваться всем*/
                     .permitAll()
                 .and()
+                    .rememberMe()
+                .and()
                     /*Включаем форму логаута*/
                     .logout()
                     .permitAll();
