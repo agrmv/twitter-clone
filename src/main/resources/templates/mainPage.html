@@ -50,26 +50,8 @@
         </div>
     </div>
 
-    <div class="card-columns">
-        <div class="card my-3" th:each="message : ${messages}">
+    <div th:insert="parts/messageList :: messageList"></div>
 
-            <div th:if="${message.image != null}">
-                <img class="card-img-top" th:src="@{'data:image/jpg;base64,'+ ${message.image}}">
-            </div>
-
-            <div class="m-2">
-                <span th:utext="${message.text}"></span>
-            </div>
-
-            <div class="m-2" th:if="${message.fileDownloadUri != null}">
-                <a th:if="${message.fileDownloadUri != null}" th:href="${message.fileDownloadUri}">
-                    <span th:utext="${message.file.fileName}"></span>
-                </a>
-            </div>
-
-            <div class="card-footer text-muted"  th:utext="${message.authorName}"></div>
-        </div>
-    </div>
 </div>
 
 </body>

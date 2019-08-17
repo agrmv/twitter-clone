@@ -1,0 +1,30 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<div th:fragment="messageList" class="card-columns">
+    <div class="card my-3" th:each="message : ${messages}">
+
+        <div th:if="${message.image != null}">
+            <img class="card-img-top" th:src="@{'data:image/jpg;base64,'+ ${message.image}}">
+        </div>
+
+        <div class="m-2">
+            <span th:utext="${message.text}"></span>
+        </div>
+
+        <div class="m-2" th:if="${message.fileDownloadUri != null}">
+            <a th:if="${message.fileDownloadUri != null}" th:href="${message.fileDownloadUri}">
+                <span th:utext="${message.file.fileName}"></span>
+            </a>
+        </div>
+
+        <div class="card-footer text-muted">
+            <a th:href="@{'/user-messages/'+ ${message.author.id}}">
+                <span th:utext="${message.authorName}"></span>
+            </a>
+            <a th:value="${message.id}" th:if="${message.author.id} == ${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}"
+               th:href="@{'/user-messages/'+ ${message.author.id} +  '/'+ ${message.id}}">
+                <img src="https://img.icons8.com/small/16/000000/edit.png">
+            </a>
+        </div>
+    </div>
+</div>
+</html>

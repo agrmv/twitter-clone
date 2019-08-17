@@ -9,6 +9,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
@@ -17,6 +18,7 @@ import ru.agrmv.twitter.service.DBFileStorageService;
 import ru.agrmv.twitter.service.MessageService;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 
 @Controller
@@ -58,5 +60,21 @@ public class MainController {
                 .contentType(MediaType.parseMediaType(dbFile.getFileType()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
                 .body(new ByteArrayResource(dbFile.getData()));
+    }
+
+    @GetMapping("/user-messages/{user}")
+    public String userMessages(@AuthenticationPrincipal User currentUser,
+                               @PathVariable User user,
+                               @ModelAttribute("message") Message message,
+                               Model model) {
+        Set<Message> messages = user.getMessages();
+        model.addAttribute("messages", messages);
+        model.addAttribute("isCurrentUser", currentUser.equals(user));
+        return "userMessages";
+    }
+
+    @GetMapping("/user-messages/{user}/{message}")
+    public String messageEdit(@PathVariable @ModelAttribute("message") @Validated Message message) {
+        return "messageEdit";
     }
 }
