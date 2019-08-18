@@ -20,13 +20,13 @@
     <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Add new Message
     </a>
-    <div class="collapse" th:classappend="${error} ? show : ''" id="collapseExample">
+    <div class="collapse" th:classappend="${messageError} ? show : ''" id="collapseExample">
         <div class="form-group mt-3">
             <form th:action="@{/main}" th:object="${message}" enctype="multipart/form-data" method="post">
                 <div class="form-group">
                     <input type="text" th:field="*{text}" class="form-control" th:classappend="${#fields.hasErrors('text')} ? 'is-invalid' : ''">
-                    <span class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:text="*{text}">Text Error</span>
-                    <script th:unless="${error}">
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text Error</span>
+                    <script th:unless="${messageError}">
                         $(document).ready(function(){
                             $('#text').val('');
                         });

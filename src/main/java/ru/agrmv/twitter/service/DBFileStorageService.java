@@ -36,7 +36,7 @@ public class DBFileStorageService {
         }
     }
 
-    public File getFile(Integer fileId) {
+    public static File getFile(Integer fileId) {
         return dbFileRepository.findById(fileId)
                 .orElseThrow(() -> new MyFileNotFoundException("File not found with id " + fileId));
     }

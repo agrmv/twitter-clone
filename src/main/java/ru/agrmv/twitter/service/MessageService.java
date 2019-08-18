@@ -1,11 +1,17 @@
 package ru.agrmv.twitter.service;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.repository.MessageRepository;
+
+import java.util.List;
 
 @Service
 public class MessageService {
@@ -15,23 +21,24 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    public void addMessage(User user, Message message, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasFieldErrors()) {
-            model.addAttribute("error", "error");
-        } else {
-            message.setAuthor(user);
-            model.addAttribute("error", null);
-            messageRepository.save(message);
-        }
-        model.addAttribute("messages", messageRepository.findAll());
+    public void save(User user, Message message) {
+        message.setAuthor(user);
+        messageRepository.save(message);
     }
 
-    public void getMessage(String filter, Model model) {
+    public List<Message> getMessage(String filter) {
         if (filter != null && !filter.isEmpty()) {
-            model.addAttribute("messages", messageRepository.findByText(filter));
+             return messageRepository.findByText(filter);
         } else {
-            model.addAttribute("messages", messageRepository.findAll());
+            return  messageRepository.findAll();
         }
-        model.addAttribute("filter", filter);
+    }
+
+    public ResponseEntity<Resource> getFileUrl(Integer fileId) {
+        File dbFile = DBFileStorageService.getFile(fileId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(dbFile.getFileType()))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + dbFile.getFileName() + "\"")
+                .body(new ByteArrayResource(dbFile.getData()));
     }
 }

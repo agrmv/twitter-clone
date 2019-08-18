@@ -22,7 +22,7 @@
             </a>
             <a th:value="${message.id}" th:if="${message.author.id} == ${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}"
                th:href="@{'/user-messages/'+ ${message.author.id} +  '/'+ ${message.id}}">
-                <img src="https://img.icons8.com/small/16/000000/edit.png">
+                <img src="https://img.icons8.com/small/16/000000/edit.png" align="right" title="Click to edit this message">
             </a>
         </div>
     </div>
