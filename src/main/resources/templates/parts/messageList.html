@@ -11,7 +11,7 @@
         </div>
 
         <div class="m-2" th:if="${message.fileDownloadUri != null}">
-            <a th:if="${message.fileDownloadUri != null}" th:href="${message.fileDownloadUri}">
+            <a th:href="${message.fileDownloadUri}">
                 <span th:utext="${message.file.fileName}"></span>
             </a>
         </div>

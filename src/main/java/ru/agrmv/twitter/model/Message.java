@@ -70,7 +70,7 @@ public class Message {
         this.author = user;
         this.text = text;
         this.file = file;
-        file.setFileDownloadUri(ServletUriComponentsBuilder.fromCurrentContextPath()
+        this.file.setFileDownloadUri(ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/downloadFile/")
                 .path(file.getId().toString())
                 .toUriString());
@@ -79,6 +79,10 @@ public class Message {
     public void setFile(MultipartFile file) {
         if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty()) {
             this.file = DBFileStorageService.storeFile(file);
+            this.file.setFileDownloadUri(ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/downloadFile/")
+                    .path(this.file.getId().toString())
+                    .toUriString());
         }
     }
 
