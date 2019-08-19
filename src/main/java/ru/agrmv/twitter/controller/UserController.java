@@ -38,9 +38,8 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
-    public String userSave(@RequestParam String username,
-                           @RequestParam Map<String, String> form, @RequestParam("userId") User user)
-    {
+    public String userSave(@RequestParam String username, @RequestParam Map<String, String> form,
+                           @RequestParam("userId") User user) {
         userService.saveUser(user, username, form);
 
         return "redirect:/user";
@@ -53,9 +52,37 @@ public class UserController {
     }
 
     @PostMapping("profile")
-    public String updateProfile(@AuthenticationPrincipal User user, @RequestParam String username, @RequestParam String password) {
+    public String updateProfile(@AuthenticationPrincipal User user, @RequestParam String username,
+                                @RequestParam String password) {
         userService.updateProfile(user, username, password);
         return "redirect:/user/profile";
     }
 
+    @GetMapping("subscribe/{user}")
+    public String subscribe(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable User user) {
+        userService.subscribe(currentUser, user);
+        return "redirect:/user-messages/" + user.getId();
+    }
+
+    @GetMapping("unsubscribe/{user}")
+    public String unsubscribe(
+            @AuthenticationPrincipal User currentUser,
+            @PathVariable User user) {
+        userService.unsubscribe(currentUser, user);
+        return "redirect:/user-messages/" + user.getId();
+    }
+
+    @GetMapping("{type}/{user}/list")
+    public String userList(@PathVariable String type, @PathVariable User user, Model model) {
+        model.addAttribute("userChannel", user);
+        model.addAttribute("type", type);
+        if ("subscriptions".equals(type)) {
+            model.addAttribute("users", user.getSubscriptions());
+        } else {
+            model.addAttribute("users", user.getSubscribers());
+        }
+        return "subscriptions";
+    }
 }

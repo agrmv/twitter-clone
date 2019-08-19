@@ -20,6 +20,10 @@ public class UserMessagesController {
                                @ModelAttribute("message") Message message,
                                Model model) {
         Set<Message> messages = user.getMessages();
+        model.addAttribute("userChannel", user);
+        model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
+        model.addAttribute("subscribersCount", user.getSubscribers().size());
+        model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
         model.addAttribute("messages", messages);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userMessages";
@@ -33,7 +37,7 @@ public class UserMessagesController {
     @PostMapping("/{message}")
     public String updateMessage(@RequestParam("text") String text, @RequestParam("id") Message message,
                                 @RequestParam("file") MultipartFile file) {
-        if (text != null && !text.isEmpty()) {
+        if (text != null && !text.isEmpty() && !(text.length() > 280)) {
             message.setText(text);
             message.setFile(file);
             return "redirect:/main";
