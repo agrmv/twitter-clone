@@ -26,7 +26,7 @@ public class UserMessagesController {
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
         model.addAttribute("messages", messages);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
-        return "userMessages";
+        return "userPage";
     }
 
     @GetMapping("/{message}")

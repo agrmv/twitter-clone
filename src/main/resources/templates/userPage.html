@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="parts/head :: head">
+    <title> User Page </title>
+</head>
+<body>
+<div th:insert="parts/navbar :: navbar"></div>
+<div class="container mt-5">
+    <div class="row profile" style="background: #F1F3FA; margin: 20px 0">
+        <div class="col-md-3">
+            <div class="profile-sidebar">
+                <div class="picture-container">
+                    <div class="picture">
+                        <img src="http://simpleicon.com/wp-content/uploads/account.png" class="picture-src">
+                        <input type="file" name="file" id="file"/>
+                        <h1 class="text">
+                            Flying Kites
+                        </h1>
+                    </div>
+                </div>
+                <div class="font-weight-bold" align="center" style="margin-top: 15px">
+                    <div class="profile-usertitle-name" th:text="${userChannel.username}"></div>
+                </div>
+                <div align="center">
+                    <div th:if="${!isCurrentUser}">
+                        <a class="btn btn-primary" th:if="${isSubscriber}" th:href="@{'/user/unsubscribe/' + ${userChannel.id}}">Unsubscribe</a>
+                        <a class="btn btn-primary" th:unless="${isSubscriber}" th:href="@{'/user/subscribe/' + ${userChannel.id}}">Subscribe</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col" style="margin-top: 20px">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Subscriptions</div>
+                    <h3 class="card-text">
+                        <a th:href="@{'/user/subscriptions/' + ${userChannel.id} + '/list'}" th:text="${subscriptionsCount}"></a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+        <div class="col" style="margin-top: 20px">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">Subscribers</div>
+                    <h3 class="card-text">
+                        <a th:href="@{'/user/subscribers/' + ${userChannel.id} + '/list'}" th:text="${subscribersCount}"></a>
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:insert="parts/messageList :: messageList"></div>
+</div>
+
+<style>
+    .picture-container{
+        position: relative;
+        cursor: pointer;
+        text-align: center;
+    }
+    .picture{
+        width: 150px;
+        height: 150px;
+        background-color: #999999;
+        border: 4px solid #CCCCCC;
+        color: #FFFFFF;
+        border-radius: 50%;
+        margin: 0px auto;
+        overflow: hidden;
+        transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+    }
+    .picture:hover{
+        border-color: #2ca8ff;
+    }
+    .content.ct-wizard-green .picture:hover{
+        border-color: #05ae0e;
+    }
+    .content.ct-wizard-blue .picture:hover{
+        border-color: #3472f7;
+    }
+    .content.ct-wizard-orange .picture:hover{
+        border-color: #ff9500;
+    }
+    .content.ct-wizard-red .picture:hover{
+        border-color: #ff3b30;
+    }
+    .picture input[type="file"] {
+        cursor: pointer;
+        display: block;
+        height: 100%;
+        left: 0;
+        opacity: 0 !important;
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+    .picture-src{
+        width: 100%;
+    }
+</style>
+</body>
+</html>

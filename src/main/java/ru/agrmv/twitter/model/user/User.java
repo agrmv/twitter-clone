@@ -73,6 +73,7 @@ public class User implements UserDetails {
     )
     private Set<User> subscriptions = new HashSet<>();
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
