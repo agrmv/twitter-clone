@@ -31,6 +31,7 @@ create table user (
                       active bit not null,
                       password varchar(255),
                       username varchar(255),
+                      userpic_id integer,
                       primary key (id)
 ) engine=MyISAM;
 

@@ -4,14 +4,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Data
@@ -56,6 +54,10 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Message> messages;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userpic_id")
+    private File userpic;
 
     @ManyToMany
     @JoinTable(
@@ -110,5 +112,12 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    public String getUserpic() {
+        if (userpic != null) {
+            return Base64.getEncoder().encodeToString(userpic.getData());
+        }
+        return null;
     }
 }

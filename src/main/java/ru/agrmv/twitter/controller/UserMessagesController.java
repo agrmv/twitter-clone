@@ -5,9 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
+import ru.agrmv.twitter.service.DBFileStorageService;
 
+import java.util.Objects;
 import java.util.Set;
 
 @Controller
@@ -27,6 +30,16 @@ public class UserMessagesController {
         model.addAttribute("messages", messages);
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userPage";
+    }
+
+    @PostMapping
+    public String chooseImage(@PathVariable User user, @RequestParam("file") MultipartFile file) {
+        if (file != null && !Objects.requireNonNull(file.getOriginalFilename()).isEmpty() &&
+                Objects.requireNonNull(file.getContentType()).contains("image")) {
+            File dbFile = DBFileStorageService.storeFile(file);
+            user.setUserpic(dbFile);
+        }
+        return "redirect:/user-messages/{user}";
     }
 
     @GetMapping("/{message}")

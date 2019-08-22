@@ -9,13 +9,26 @@
     <div class="row profile" style="background: #F1F3FA; margin: 20px 0">
         <div class="col-md-3">
             <div class="profile-sidebar">
-                <div class="picture-container">
-                    <div class="picture">
+                <div class="picture-container" th:if="${isCurrentUser}">
+                    <form  th:action="@{'/user-messages/' + ${userChannel.id}}" enctype="multipart/form-data" method="post">
+                        <div class="picture" th:if="${userChannel.userpic}">
+                            <img th:src="@{'data:image/jpg;base64,'+ ${userChannel.userpic}}" class="picture-src">
+                            <input class="file" type="file" name="file" id="file" onchange="form.submit()"/>
+                            <p class="text">Change userpic</p>
+                        </div>
+                        <div class="picture" th:unless="${userChannel.userpic}">
+                            <img src="http://simpleicon.com/wp-content/uploads/account.png" class="picture-src">
+                            <input class="file" type="file" name="file" id="file" onchange="form.submit()"/>
+                            <p class="text">Choose userpic</p>
+                        </div>
+                    </form>
+                </div>
+                <div class="picture-container" th:unless="${isCurrentUser}">
+                    <div class="pictureNotCurrent" th:if="${userChannel.userpic}">
+                        <img th:src="@{'data:image/jpg;base64,'+ ${userChannel.userpic}}" class="picture-src">
+                    </div>
+                    <div class="pictureNotCurrent" th:unless="${userChannel.userpic}">
                         <img src="http://simpleicon.com/wp-content/uploads/account.png" class="picture-src">
-                        <input type="file" name="file" id="file"/>
-                        <h1 class="text">
-                            Flying Kites
-                        </h1>
                     </div>
                 </div>
                 <div class="font-weight-bold" align="center" style="margin-top: 15px">
@@ -56,6 +69,7 @@
 
 <style>
     .picture-container{
+        margin-top: 20px;
         position: relative;
         cursor: pointer;
         text-align: center;
@@ -67,10 +81,32 @@
         border: 4px solid #CCCCCC;
         color: #FFFFFF;
         border-radius: 50%;
-        margin: 0px auto;
+        margin: 0 auto;
         overflow: hidden;
         transition: all 0.2s;
         -webkit-transition: all 0.2s;
+    }
+    .pictureNotCurrent{
+        width: 150px;
+        height: 150px;
+        background-color: #999999;
+        border: 4px solid #CCCCCC;
+        color: #FFFFFF;
+        border-radius: 50%;
+        margin: 0 auto;
+        overflow: hidden;
+        transition: all 0.2s;
+        -webkit-transition: all 0.2s;
+    }
+    .picture .text {
+        position:relative;
+        bottom:50px;
+        left:0px;
+        visibility:hidden;
+    }
+
+    .picture:hover .text {
+        visibility:visible;
     }
     .picture:hover{
         border-color: #2ca8ff;
@@ -98,6 +134,7 @@
         width: 100%;
     }
     .picture-src{
+        height: 100%;
         width: 100%;
     }
 </style>
