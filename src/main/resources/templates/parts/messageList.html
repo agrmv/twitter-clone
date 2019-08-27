@@ -16,9 +16,14 @@
             </a>
         </div>
 
-        <div class="card-footer text-muted">
+        <div class="card-footer text-muted container">
             <a th:href="@{'/user-messages/'+ ${message.author.id}}">
                 <span th:utext="${message.authorName}"></span>
+            </a>
+            <a class="col align-self-center" th:href="@{'/messages/' + ${message.id} + '/like'}">
+                <i th:if="${message.meLiked}" class="fas fa-heart"></i>
+                <i th:unless="${message.meLiked}" class="far fa-heart"></i>
+                <span th:text="${message.likes}"></span>
             </a>
             <a th:value="${message.id}" th:if="${message.author.id} == ${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}"
                th:href="@{'/user-messages/'+ ${message.author.id} +  '/'+ ${message.id}}">

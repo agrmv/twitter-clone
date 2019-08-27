@@ -2,12 +2,15 @@ package ru.agrmv.twitter.service;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
+import ru.agrmv.twitter.model.MessageDto;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.repository.MessageRepository;
 
@@ -26,12 +29,21 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public List<Message> getMessage(String filter) {
+    public List<Message> messageList() {
+        return  messageRepository.findAll();
+    }
+
+
+    public Page<MessageDto> messageList(Pageable pageable, String filter, User user) {
         if (filter != null && !filter.isEmpty()) {
-             return messageRepository.findByText(filter);
+             return messageRepository.findByText(filter, pageable, user);
         } else {
-            return  messageRepository.findAll();
+            return  messageRepository.findAll(pageable, user);
         }
+    }
+
+    public Page<MessageDto> messageListForUser(Pageable pageable, User currentUser, User author) {
+        return messageRepository.findByUser(pageable, author, currentUser);
     }
 
     public ResponseEntity<Resource> getFileUrl(Integer fileId) {

@@ -6,12 +6,15 @@ import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.agrmv.twitter.model.user.User;
+import ru.agrmv.twitter.model.util.MessageHelper;
 import ru.agrmv.twitter.service.DBFileStorageService;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Base64;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * Класс ChatMessageModel описывает модель сообщения
@@ -49,6 +52,14 @@ public class Message {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "file_id")
     private File file;
+
+    @ManyToMany
+    @JoinTable(
+            name = "message_likes",
+            joinColumns = {@JoinColumn(name = "message_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> likes = new HashSet<>();
 
     /**
      * Конструктор - создание нового объекта(сообщения) с определенными значениями
@@ -90,7 +101,7 @@ public class Message {
      * Функция, возвращающая имя автора сообщения
      * */
     public String getAuthorName() {
-        return author.getUsername();
+        return MessageHelper.getAuthorName(author);
     }
 
     /**
