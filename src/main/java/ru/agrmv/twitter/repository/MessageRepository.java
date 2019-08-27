@@ -6,16 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import ru.agrmv.twitter.model.Message;
-import ru.agrmv.twitter.model.MessageDto;
+import ru.agrmv.twitter.model.dto.MessageDto;
 import ru.agrmv.twitter.model.user.User;
-
-import java.util.List;
 
 public interface MessageRepository extends CrudRepository<Message, Integer> {
 
-    List<Message> findAll();
-
-    @Query("select new ru.agrmv.twitter.model.MessageDto(" +
+    @Query("select new ru.agrmv.twitter.model.dto.MessageDto(" +
             "   m, " +
             "   count(ml), " +
             "   sum(case when ml = :user then 1 else 0 end) > 0" +
@@ -24,7 +20,7 @@ public interface MessageRepository extends CrudRepository<Message, Integer> {
             "group by m")
     Page<MessageDto> findAll(Pageable pageable, @Param("user") User user);
 
-    @Query("select new ru.agrmv.twitter.model.MessageDto(" +
+    @Query("select new ru.agrmv.twitter.model.dto.MessageDto(" +
             "   m, " +
             "   count(ml), " +
             "   sum(case when ml = :user then 1 else 0 end) > 0" +
@@ -34,7 +30,7 @@ public interface MessageRepository extends CrudRepository<Message, Integer> {
             "group by m")
     Page<MessageDto> findByText(@Param("text") String text, Pageable pageable, @Param("user") User user);
 
-    @Query("select new ru.agrmv.twitter.model.MessageDto(" +
+    @Query("select new ru.agrmv.twitter.model.dto.MessageDto(" +
             "   m, " +
             "   count(ml), " +
             "   sum(case when ml = :user then 1 else 0 end) > 0" +

@@ -1,15 +1,16 @@
-package ru.agrmv.twitter.model;
+package ru.agrmv.twitter.model.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.agrmv.twitter.model.File;
+import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.model.util.MessageHelper;
-
-import java.util.Base64;
 
 @Data
 @NoArgsConstructor
 public class MessageDto {
+
     private Integer id;
     private String text;
     private User author;
@@ -31,17 +32,11 @@ public class MessageDto {
     }
 
     public String getFileDownloadUri() {
-        if (file != null && !file.getFileType().contains("image")) {
-            return file.getFileDownloadUri();
-        }
-        return null;
+        return MessageHelper.getFileDownloadUri(file);
     }
 
     public String getImage() {
-        if (file != null && file.getFileType().contains("image")) {
-            return Base64.getEncoder().encodeToString(file.getData());
-        }
-        return null;
+        return  MessageHelper.getImage(file);
     }
 
     @Override

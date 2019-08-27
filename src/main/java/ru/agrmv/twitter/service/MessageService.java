@@ -10,11 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
-import ru.agrmv.twitter.model.MessageDto;
+import ru.agrmv.twitter.model.dto.MessageDto;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.repository.MessageRepository;
-
-import java.util.List;
 
 @Service
 public class MessageService {
@@ -29,8 +27,8 @@ public class MessageService {
         messageRepository.save(message);
     }
 
-    public List<Message> messageList() {
-        return  messageRepository.findAll();
+    public Page<MessageDto> messageList(Pageable pageable, User user) {
+        return  messageRepository.findAll(pageable, user);
     }
 
 

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
-import ru.agrmv.twitter.model.MessageDto;
+import ru.agrmv.twitter.model.dto.MessageDto;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.service.DBFileStorageService;
 import ru.agrmv.twitter.service.MessageService;

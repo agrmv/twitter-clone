@@ -11,7 +11,6 @@ import ru.agrmv.twitter.service.DBFileStorageService;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Base64;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -48,7 +47,6 @@ public class Message {
     @JoinColumn(name = "user_id")
     private User author;
 
-    //TODO FIX THIS
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "file_id")
     private File file;
@@ -108,19 +106,13 @@ public class Message {
      * Функция, возвращающая ссылку для загрузки файла
      * */
     public String getFileDownloadUri() {
-        if (file != null && !file.getFileType().contains("image")) {
-            return file.getFileDownloadUri();
-        }
-        return null;
+       return MessageHelper.getFileDownloadUri(file);
     }
 
     /**
      * Функция, возвращающая картинку
      * */
     public String getImage() {
-        if (file != null && file.getFileType().contains("image")) {
-            return Base64.getEncoder().encodeToString(file.getData());
-        }
-        return null;
+       return MessageHelper.getImage(file);
     }
 }

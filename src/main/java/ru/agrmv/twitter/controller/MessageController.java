@@ -26,7 +26,6 @@ public class MessageController {
 
     private final MessageService messageService;
 
-
     public MessageController(MessageService messageService) {
         this.messageService = messageService;
     }
@@ -46,15 +45,15 @@ public class MessageController {
     }
 
     @PostMapping("/main")
-    public String add(@AuthenticationPrincipal User user, @Valid Message message,
-                      BindingResult bindingResult, Model model) {
+    public String add(@AuthenticationPrincipal User user, @Valid Message message, BindingResult bindingResult,
+                      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("messageError", "messageError");
         } else {
             messageService.save(user, message);
             model.addAttribute("messageError", null);
         }
-        model.addAttribute("messages", messageService.messageList());
+        model.addAttribute("messages", messageService.messageList(pageable, user));
         return "mainPage";
     }
 
@@ -76,8 +75,7 @@ public class MessageController {
         }
 
         UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
-        components.getQueryParams()
-                .forEach(redirectAttributes::addAttribute);
+        components.getQueryParams().forEach(redirectAttributes::addAttribute);
 
         return "redirect:" + components.getPath();
     }
