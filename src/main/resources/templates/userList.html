@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="parts/head :: head">
+    <title>User List</title>
+</head>
+<body>
+    <div th:insert="parts/navbar :: navbar"/>
+
+    <div class="container mt-5">
+        <table>
+            <thead>
+                <tr>
+                    <th> Name </th>
+                    <th> Role </th>
+                    <th> </th>
+                </tr>
+            </thead>
+
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td th:utext="${user.username}"></td>
+                <td th:each="role : ${user.roles}" th:utext="${role}"></td>
+                <td><a th:href="@{'/user/' + ${user.id}}">Edit</a></td>
+            </tr>
+        </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="parts/head :: head">
+    <title>User Editor</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <form th:action = "@{/user}" method="post">
+            <input type="text" th:value="${user.username}" name="username">
+
+             <div th:each="role : ${roles}">
+                <label>
+                    <input th:utext="${role}" type="checkbox" th:name="${role}" th:checked="${user.roles.contains(role)}">
+                </label>
+            </div>
+
+            <input type="hidden" th:value="${user.id}" name="userId">
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>

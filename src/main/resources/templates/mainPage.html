@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="parts/head :: head">
+    <title> Message Page </title>
+</head>
+<body>
+
+<div th:insert="parts/navbar :: navbar"></div>
+
+<div class="container mt-5">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <form method="get" th:action="@{/main}" class="form-inline">
+                <input type="text" name="filter" class="form-control" th:value="${filter}?:''"   placeholder="Search">
+                <button type="submit" class="btn btn-primary ml-2">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Add new Message
+    </a>
+    <div class="collapse" th:classappend="${messageError} ? show : ''" id="collapseExample">
+        <div class="form-group mt-3">
+            <form th:action="@{/main}" th:object="${message}" enctype="multipart/form-data" method="post">
+                <div class="form-group">
+                    <input type="text" th:field="*{text}" class="form-control" th:classappend="${#fields.hasErrors('text')} ? 'is-invalid' : ''">
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Text Error</span>
+                    <script th:unless="${messageError}">
+                        $(document).ready(function(){
+                            $('#text').val('');
+                        });
+                    </script>
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="file"/>
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+                    <script>
+                        $(document).on('change', '.custom-file-input', function (event) {
+                            $(this).next('.custom-file-label').html(event.target.files[0].name);
+                        })
+                    </script>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">Send</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div th:insert="parts/messageList :: messageList"></div>
+
+</div>
+
+</body>
+</html>

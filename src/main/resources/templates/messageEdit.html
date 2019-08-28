@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="parts/head :: head">
+    <title> Message Edit </title>
+</head>
+<body>
+
+<div th:insert="parts/navbar :: navbar"></div>
+
+<div class="container mt-5">
+        <div class="form-group mt-3">
+            <form th:action="@{'/user-messages/' + ${message.author.id} + '/' + ${message.id}}"
+                  th:object="${message}" enctype="multipart/form-data" method="post">
+                <div class="form-group">
+                    <input type="text" th:field="*{text}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="file"/>
+                        <label class="custom-file-label" for="file">Choose file</label>
+                    </div>
+                    <script>
+                        $(document).on('change', '.custom-file-input', function (event) {
+                            $(this).next('.custom-file-label').html(event.target.files[0].name);
+                        })
+                    </script>
+                </div>
+                <div class="form-group">
+                    <input type="hidden" name="id" th:value="${message} ? ${message.id} : ''"/>
+                    <button class="btn btn-primary" type="submit">Save</button>
+                </div>
+            </form>
+    </div>
+</div>
+</body>
+</html>

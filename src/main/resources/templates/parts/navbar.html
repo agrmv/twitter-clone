@@ -1,0 +1,41 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Twitter</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                     <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/main">Messages</a>
+                 </li>
+                <li class="nav-item" th:if="${session.SPRING_SECURITY_CONTEXT != null &&
+                session.SPRING_SECURITY_CONTEXT.authentication.principal.isAdmin()}">
+                    <a class="nav-link" href="/user">User List</a>
+                </li>
+                <li class="nav-item" th:if="${session.SPRING_SECURITY_CONTEXT != null}">
+                    <a class="nav-link" th:href="@{'/user-messages/' +
+                    ${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}}">My Page</a>
+                </li>
+                <li class="nav-item" th:if="${session.SPRING_SECURITY_CONTEXT != null}">
+                    <a class="nav-link" href="/user/profile">
+                        <span th:utext="${'Account Settings'}"></span>
+                    </a>
+                </li>
+            </ul>
+            <div th:if="${session.SPRING_SECURITY_CONTEXT != null}">
+                <form th:action="@{/logout}" method="post">
+                    <button class="btn btn-primary" type="submit">Sign Out</button>
+                </form>
+            </div>
+            <div th:if="${session.SPRING_SECURITY_CONTEXT == null}">
+                <a th:href="@{/login}" class="btn btn-primary">Sign In</a>
+            </div>
+        </div>
+    </nav>
+</html>
