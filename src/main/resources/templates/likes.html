@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:insert="parts/head :: head">
+</head>
+<body>
+<div th:insert="parts/navbar :: navbar"/>
+
+<div class="container mt-5">
+    <ul class="list-group" th:each="like : ${likes}">
+        <li class="list-group-item">
+            <a th:href="@{'/user-messages/' + ${message.id}}" th:text="${like.username}"></a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

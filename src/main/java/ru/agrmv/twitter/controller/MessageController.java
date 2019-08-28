@@ -79,4 +79,10 @@ public class MessageController {
 
         return "redirect:" + components.getPath();
     }
+
+    @GetMapping("likes/{message}/list")
+    public String likes(@PathVariable Message message, Model model) {
+        model.addAttribute("likes", message.getLikes());
+        return "likes";
+    }
 }
