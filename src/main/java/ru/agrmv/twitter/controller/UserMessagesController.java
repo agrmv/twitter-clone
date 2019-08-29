@@ -1,9 +1,5 @@
 package ru.agrmv.twitter.controller;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.agrmv.twitter.model.File;
 import ru.agrmv.twitter.model.Message;
-import ru.agrmv.twitter.model.dto.MessageDto;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.service.DBFileStorageService;
 import ru.agrmv.twitter.service.MessageService;
@@ -31,15 +26,12 @@ public class UserMessagesController {
     @GetMapping
     public String userMessages(@AuthenticationPrincipal User currentUser,
                                @PathVariable User user,
-                               @ModelAttribute("message") Message message,
-                               @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
-                               Model model) {
-        Page<MessageDto> messages = messageService.messageListForUser(pageable, currentUser, user);
+                               @ModelAttribute("message") Message message, Model model) {
         model.addAttribute("userChannel", user);
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
         model.addAttribute("subscribersCount", user.getSubscribers().size());
         model.addAttribute("isSubscriber", user.getSubscribers().contains(currentUser));
-        model.addAttribute("messages", messages);
+        model.addAttribute("messages", messageService.messageListForUser(currentUser, user));
         model.addAttribute("isCurrentUser", currentUser.equals(user));
         return "userPage";
     }
