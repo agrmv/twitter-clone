@@ -1,9 +1,6 @@
 package ru.agrmv.twitter.controller;
 
 import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -37,23 +34,21 @@ public class MessageController {
 
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, @ModelAttribute("message")
-            Message message, Model model, @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
-                       @AuthenticationPrincipal User user) {
-        model.addAttribute("messages", messageService.messageList(pageable, filter, user));
+            Message message, Model model, @AuthenticationPrincipal User user) {
+        model.addAttribute("messages", messageService.messageList(filter, user));
         model.addAttribute("filter", filter);
         return "mainPage";
     }
 
     @PostMapping("/main")
-    public String add(@AuthenticationPrincipal User user, @Valid Message message, BindingResult bindingResult,
-                      @PageableDefault(sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+    public String add(@AuthenticationPrincipal User user, @Valid Message message, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("messageError", "messageError");
         } else {
             messageService.save(user, message);
             model.addAttribute("messageError", null);
         }
-        model.addAttribute("messages", messageService.messageList(pageable, user));
+        model.addAttribute("messages", messageService.messageList(user));
         return "mainPage";
     }
 
