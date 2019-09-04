@@ -36,29 +36,21 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                    /*Для этих путей разрешен полный доступ*/
-                    /*Для всех остальных нужна авторизация*/
                 .antMatchers("/", "/registration").permitAll()
                     .anyRequest().authenticated()
                 .and()
-                    /*Включаем форму логина*/
                     .formLogin()
-                    /*Устанавливаем страницу для логина*/
                     .loginPage("/login")
-                    /*Стрницей логина разрешено пользоваться всем*/
                     .permitAll()
                 .and()
                     .rememberMe()
                 .and()
-                    /*Включаем форму логаута*/
                     .logout()
                     .permitAll();
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        /*Менеджер учетных записей*/
-        auth.userDetailsService(userService)
-                .passwordEncoder(passwordEncoder);
+        auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
     }
 }

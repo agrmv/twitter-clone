@@ -18,9 +18,37 @@
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Password :</label>
             <div class="col-sm-6">
-                <input type="password" th:field="*{password}" name="password2" class="form-control"
-                       th:classappend="${passwordError} ? 'is-invalid' : ''" placeholder="Password"/>
-                <span class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+                <div class="right-inner-addon">
+                    <i id="icon" class="far fa-eye" aria-hidden="true" title="Show password"></i>
+                    <input type="password" th:field="*{password}" id="password" class="form-control" th:classappend="${passwordError} ? 'is-invalid' : ''" placeholder="Password"/>
+                    <span class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password Error</span>
+                    <script>
+                        $("#icon").click(function () {
+                            if ($("#password").attr("type") === "password") {
+                                $("#password").attr("type", "text");
+                                $("#icon").attr("class", "far fa-eye-slash").attr("title", "Hide password");
+                            } else {
+                                $("#password").attr("type", "password");
+                                $("#icon").attr("class", "far fa-eye").attr("title", "Show password");
+                            }
+                        });
+                    </script>
+                    <style>
+                        .right-inner-addon {
+                            position: relative;
+                        }
+
+                        .right-inner-addon input {
+                            padding-right: 30px;
+                        }
+
+                        .right-inner-addon i {
+                            position: absolute;
+                            right: 0px;
+                            padding: 10px 12px;
+                        }
+                    </style>
+                </div>
             </div>
         </div>
         <button class="btn btn-primary" type="submit">Sign Up</button>

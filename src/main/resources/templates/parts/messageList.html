@@ -27,9 +27,9 @@
                     <span th:text="${message.likes}"></span>
                 </a>
             </a>
-            <a th:value="${message.id}" th:if="${message.author.id} == ${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}"
+            <a  class="col align-self-right" th:value="${message.id}" th:if="${message.author.id} == ${session.SPRING_SECURITY_CONTEXT.authentication.principal.getId()}"
                th:href="@{'/user-messages/'+ ${message.author.id} +  '/'+ ${message.id}}">
-                <img src="https://img.icons8.com/small/16/000000/edit.png" align="right" title="Click to edit this message">
+                <i class="fas fa-pencil-alt" title="Click to edit this message"></i>
             </a>
         </div>
     </div>

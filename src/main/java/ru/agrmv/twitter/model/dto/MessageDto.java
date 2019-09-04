@@ -7,6 +7,10 @@ import ru.agrmv.twitter.model.Message;
 import ru.agrmv.twitter.model.user.User;
 import ru.agrmv.twitter.model.util.MessageHelper;
 
+/**
+ * DTO (data transfer object) используется для передачи данных между подсистемами приложения
+ * */
+
 @Data
 @NoArgsConstructor
 public class MessageDto {
