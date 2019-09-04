@@ -24,8 +24,7 @@ public class UserMessagesController {
     }
 
     @GetMapping
-    public String userMessages(@AuthenticationPrincipal User currentUser,
-                               @PathVariable User user,
+    public String userMessages(@AuthenticationPrincipal User currentUser, @PathVariable User user,
                                @ModelAttribute("message") Message message, Model model) {
         model.addAttribute("userChannel", user);
         model.addAttribute("subscriptionsCount", user.getSubscriptions().size());
